@@ -1,4 +1,4 @@
-name: dbeaver/cloudbeaver
+name: library/wordpress
 
 on:
   workflow_dispatch:
@@ -22,8 +22,8 @@ jobs:
         run: |
           docker build --progress=plain \
           --tag ghcr.io/${{ github.repository_owner }}/library/wordpress:6.6.2 \
-          --file dbeaver/cloudbeaver/dockerfile \
-          dbeaver/cloudbeaver      
+          --file library/wordpress/dockerfile \
+          library/wordpress      
 
       - name: Push the image to GitHub Container Registry
         run: docker push ghcr.io/${{ github.repository_owner }}/library/wordpress:6.6.2
