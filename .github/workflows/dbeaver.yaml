@@ -17,7 +17,7 @@ jobs:
         run: docker pull docker.io/dbeaver/cloudbeaver:24.2.3
 
       - name: Tag the image for GitHub Container Registry
-        run: docker tag docker.io/dbeaver/cloudbeaver:24.2.3 ghcr.io/${{ github.repository_owner }}/cloudbeaver:24.2.3 --label "org.opencontainers.image.source=https://github.com/wilsonify/ghcr"
+        run: docker image tag docker.io/dbeaver/cloudbeaver:24.2.3 ghcr.io/${{ github.repository_owner }}/cloudbeaver:24.2.3 --label "org.opencontainers.image.source=https://github.com/wilsonify/ghcr"
 
       - name: Push the image to GitHub Container Registry
         run: docker push ghcr.io/${{ github.repository_owner }}/cloudbeaver:24.2.3
