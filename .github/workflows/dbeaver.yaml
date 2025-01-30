@@ -1,4 +1,4 @@
-name: Pull and Push DBeaver/CloudBeaver
+name: dbeaver/cloudbeaver
 
 on:
   workflow_dispatch:
