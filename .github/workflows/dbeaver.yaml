@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  pull-and-push:
+  docker-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -13,11 +13,12 @@ jobs:
       - name: Log in to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Pull DBeaver/CloudBeaver image
-        run: docker pull docker.io/dbeaver/cloudbeaver:24.2.3
-
-      - name: Tag the image for GitHub Container Registry
-        run: docker image tag docker.io/dbeaver/cloudbeaver:24.2.3 ghcr.io/${{ github.repository_owner }}/cloudbeaver:24.2.3 --label "org.opencontainers.image.source=https://github.com/wilsonify/ghcr"
+      - name: Build DBeaver/CloudBeaver image
+        run: |
+          docker build --progress=plain \
+          -t ghcr.io/${{ github.repository_owner }}/dbeaver/cloudbeaver:24.2.3 \
+          -f dbeaver/cloudbeaver/dockerfile --context dbeaver/cloudbeaver \
+          --label "org.opencontainers.image.source=https://github.com/wilsonify/ghcr"
 
       - name: Push the image to GitHub Container Registry
         run: docker push ghcr.io/${{ github.repository_owner }}/cloudbeaver:24.2.3

@@ -1,0 +1,2 @@
+FROM docker.io/dbeaver/cloudbeaver:24.2.3
+
