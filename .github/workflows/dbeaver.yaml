@@ -1,0 +1,23 @@
+name: Pull and Push DBeaver/CloudBeaver
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pull-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Pull DBeaver/CloudBeaver image
+        run: docker pull docker.io/dbeaver/cloudbeaver:24.2.3
+
+      - name: Tag the image for GitHub Container Registry
+        run: docker tag docker.io/dbeaver/cloudbeaver:24.2.3 ghcr.io/${{ github.repository_owner }}/cloudbeaver:24.2.3 --label "org.opencontainers.image.source=https://github.com/wilsonify/ghcr"
+
+      - name: Push the image to GitHub Container Registry
+        run: docker push ghcr.io/${{ github.repository_owner }}/cloudbeaver:24.2.3
