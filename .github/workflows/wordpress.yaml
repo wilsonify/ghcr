@@ -21,9 +21,9 @@ jobs:
       - name: Build image
         run: |
           docker build --progress=plain \
-          --tag ghcr.io/${{ github.repository_owner }}/library/wordpress:6.6.2 \
+          --tag ghcr.io/${{ github.repository_owner }}/library/wordpress:6.7.1 \
           --file library/wordpress/dockerfile \
           library/wordpress      
 
       - name: Push the image to GitHub Container Registry
-        run: docker push ghcr.io/${{ github.repository_owner }}/library/wordpress:6.6.2
+        run: docker push ghcr.io/${{ github.repository_owner }}/library/wordpress:6.7.1

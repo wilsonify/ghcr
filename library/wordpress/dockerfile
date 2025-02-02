@@ -1,1 +1,1 @@
-FROM docker.io/library/wordpress:6.6.2
+FROM docker.io/library/wordpress:6.7.1
