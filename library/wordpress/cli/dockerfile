@@ -1,1 +1,0 @@
-FROM docker.io/library/wordpress:cli-2.11.0
