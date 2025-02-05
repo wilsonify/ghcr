@@ -1,5 +1,11 @@
 FROM docker.io/library/wordpress:6.7.1
 
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y libxml2-dev
+
+RUN docker-php-ext-install soap
+
 # Install WordPress CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
