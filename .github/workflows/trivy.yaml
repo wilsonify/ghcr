@@ -3,6 +3,10 @@ name: security-scan
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   scan:
     name: Scan ${{ matrix.image }}
