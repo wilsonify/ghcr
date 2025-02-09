@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       path:
-        type: string
+        type: choice
         description: 'Path to the Dockerfile'
         required: true
         options:
