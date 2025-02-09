@@ -1,0 +1,1 @@
+FROM docker.io/selenium/standalone-chrome:97.0.4692.71
