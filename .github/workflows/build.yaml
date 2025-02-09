@@ -1,0 +1,64 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      path:
+        type: string
+        description: 'Path to the Dockerfile'
+        required: true
+        options:
+          - "apache/airflow"
+          - "aws/lambda/nodejs"
+          - "aws/lambda/python"
+          - "cloudflare/cloudflared"
+          - "dbeaver/cloudbeaver"
+          - "dexidp/dex"
+          - "kindest/node"
+          - "library/alpine"
+          - "library/debian"
+          - "library/golang"
+          - "library/mariadb"
+          - "library/node"
+          - "library/openjdk"
+          - "library/php"
+          - "library/postgres"
+          - "library/python"
+          - "library/sonarqube"
+          - "library/ubuntu"
+          - "library/wordpress"
+          - "nvidia/cuda"
+          - "oauth2-proxy/oauth2-proxy"
+          - "selenium/standalone-chrome"
+
+
+jobs:
+  build-job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Determine Tag
+        run: |
+          set -e  # Fail on error
+          TAG=$(grep -iE "^FROM" "${{ inputs.path }}/dockerfile" | awk -F: '{print $NF}')
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Build ${{ inputs.path }}
+        run: |
+          docker build --progress=plain \
+          --tag ghcr.io/${{ github.repository_owner }}/${{ inputs.path }}:${{ env.TAG }} \
+          --file ${{ inputs.path }}/dockerfile \
+          ${{ inputs.path }}
+
+      - name: Push ${{ inputs.path }}:${{ env.TAG }} to GitHub Container Registry
+        run: docker push ghcr.io/${{ github.repository_owner }}/${{ inputs.path }}:${{ env.TAG }}
