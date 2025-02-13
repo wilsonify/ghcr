@@ -5,6 +5,7 @@ RUN apt-get update && \
     apt-get install -y libxml2-dev
 
 RUN docker-php-ext-install soap
+RUN pecl install redis && docker-php-ext-enable redis
 
 # Install WordPress CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
