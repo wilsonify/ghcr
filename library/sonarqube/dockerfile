@@ -1,1 +1,1 @@
-FROM sonarqube:lts-community
+FROM docker.io/library/sonarqube:lts-community
