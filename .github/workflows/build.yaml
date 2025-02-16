@@ -24,6 +24,7 @@ on:
           - "library/php"
           - "library/postgres"
           - "library/python"
+          - "library/redis"
           - "library/sonarqube"
           - "library/ubuntu"
           - "library/wordpress"
