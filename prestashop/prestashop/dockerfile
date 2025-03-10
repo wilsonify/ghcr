@@ -1,0 +1,1 @@
+FROM docker.io/prestashop/prestashop:8.2.1-apache
