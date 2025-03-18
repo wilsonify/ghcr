@@ -14,6 +14,7 @@ on:
           - "cloudflare/cloudflared"
           - "dbeaver/cloudbeaver"
           - "dexidp/dex"
+          - "eqalpha/keydb"
           - "kindest/node"
           - "library/alpine"
           - "library/debian"
@@ -30,8 +31,8 @@ on:
           - "library/wordpress"
           - "nvidia/cuda"
           - "oauth2-proxy/oauth2-proxy"
-          - "selenium/standalone-chrome"
           - "prestashop/prestashop"
+          - "selenium/standalone-chrome"
 
 
 jobs:
