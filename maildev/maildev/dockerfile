@@ -1,0 +1,1 @@
+FROM docker.io/maildev/maildev:2.2.1

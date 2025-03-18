@@ -29,6 +29,7 @@ on:
           - "library/sonarqube"
           - "library/ubuntu"
           - "library/wordpress"
+          - "maildev/maildev"
           - "nvidia/cuda"
           - "oauth2-proxy/oauth2-proxy"
           - "prestashop/prestashop"
