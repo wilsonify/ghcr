@@ -1,0 +1,1 @@
+FROM docker.io/timescale/timescaledb:2.20.0-pg17
