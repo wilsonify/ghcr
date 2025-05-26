@@ -34,6 +34,7 @@ on:
           - "oauth2-proxy/oauth2-proxy"
           - "prestashop/prestashop"
           - "selenium/standalone-chrome"
+          - "timescale/timescaledb"
 
 
 jobs:
