@@ -1,15 +1,32 @@
-FROM docker.io/library/wordpress:6.8-php8.3
+# --- Builder stage ---
+FROM docker.io/library/wordpress:6.8-php8.3 AS builder
 
+# Install system dependencies and build tools
 RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y libxml2-dev jq curl
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      libxml2-dev \
+      jq \
+      curl \
+      python3 \
+      python3-pip \
+      git \
+      && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-install soap
-RUN pecl install redis && docker-php-ext-enable redis
+# Enable PHP extensions
+RUN docker-php-ext-install soap \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 # Install WordPress CLI
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+RUN curl -sSL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
+# Install Ansible via pip
+RUN pip3 install --no-cache-dir ansible
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Drop to non-root for safety
 USER www-data
