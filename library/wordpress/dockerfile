@@ -2,7 +2,7 @@ FROM docker.io/library/wordpress:6.8-php8.3
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y libxml2-dev
+    apt-get install -y libxml2-dev jq
 
 RUN docker-php-ext-install soap
 RUN pecl install redis && docker-php-ext-enable redis
