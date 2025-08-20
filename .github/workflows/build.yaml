@@ -1,11 +1,11 @@
-name: Build
+name: "Build"
 
 on:
   workflow_dispatch:
     inputs:
       path:
-        type: choice
-        description: 'Path to the Dockerfile'
+        type: "choice"
+        description: "Path to the Dockerfile"
         required: true
         options:
           - "apache/airflow"
@@ -40,31 +40,31 @@ on:
 
 jobs:
   build-job:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     permissions:
-      contents: read
-      packages: write
-      id-token: write
+      contents: "read"
+      packages: "write"
+      id-token: "write"
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: "Checkout repository"
+        uses: "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683" # v4.2.2
 
-      - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: "Log in to GitHub Container Registry"
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
-      - name: Determine Tag
+      - name: "Determine Tag"
         run: |
           set -e  # Fail on error
           TAG=$(grep -iE "^FROM" "${{ inputs.path }}/dockerfile" | awk -F: '{print $NF}')
-          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
 
-      - name: Build ${{ inputs.path }}
+      - name: "Build ${{ inputs.path }}"
         run: |
           docker build --progress=plain \
-          --tag ghcr.io/${{ github.repository_owner }}/${{ inputs.path }}:${{ env.TAG }} \
-          --file ${{ inputs.path }}/dockerfile \
-          ${{ inputs.path }}
+          --tag "ghcr.io/${{ github.repository_owner }}/${{ inputs.path }}:${{ env.TAG }}" \
+          --file "${{ inputs.path }}/dockerfile" \
+          "${{ inputs.path }}"
 
-      - name: Push ${{ inputs.path }}:${{ env.TAG }} to GitHub Container Registry
-        run: docker push ghcr.io/${{ github.repository_owner }}/${{ inputs.path }}:${{ env.TAG }}
+      - name: "Push ${{ inputs.path }}:${{ env.TAG }} to GitHub Container Registry"
+        run: docker push "ghcr.io/${{ github.repository_owner }}/${{ inputs.path }}:${{ env.TAG }}"
