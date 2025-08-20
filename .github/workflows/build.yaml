@@ -1,4 +1,4 @@
-name: "Build"
+name: "Build ${{ inputs.path }}"
 
 on:
   workflow_dispatch:
