@@ -20,6 +20,7 @@ on:
           - "library/debian"
           - "library/golang"
           - "library/mariadb"
+          - "library/nginx"
           - "library/node"
           - "library/openjdk"
           - "library/php"
