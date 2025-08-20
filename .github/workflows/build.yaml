@@ -57,8 +57,12 @@ jobs:
       - name: "Determine Tag"
         run: |
           set -e  # Fail on error
-          TAG=$(grep -iE "^FROM" "${{ inputs.path }}/dockerfile" | awk -F: '{print $NF}')
+          # Extract FROM line, drop "AS ..." if present, then grab the tag after the last colon
+          FROM_LINE=$(grep -iE "^FROM" "${{ inputs.path }}/dockerfile" | head -n 1)
+          CLEANED=$(echo "$FROM_LINE" | sed -E 's/[[:space:]]+AS[[:space:]]+.*//I')
+          TAG=$(echo "$CLEANED" | awk -F: '{print $NF}')
           echo "TAG=$TAG" >> "$GITHUB_ENV"
+
 
       - name: "Build ${{ inputs.path }}"
         run: |
