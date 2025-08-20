@@ -1,4 +1,4 @@
-name: "Build ${{ inputs.path }}"
+name: "Build"
 
 on:
   workflow_dispatch:
@@ -37,6 +37,7 @@ on:
           - "selenium/standalone-chrome"
           - "timescale/timescaledb"
 
+run-name: "Build ${{ inputs.path }}"
 
 jobs:
   build-job:
