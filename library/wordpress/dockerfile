@@ -2,7 +2,7 @@ FROM docker.io/library/wordpress:6.8-php8.3
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y libxml2-dev jq curl python3 python3-pip
+    apt-get install -y libxml2-dev jq curl pipx
 
 RUN docker-php-ext-install soap
 RUN pecl install redis && docker-php-ext-enable redis
@@ -13,6 +13,6 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     && mv wp-cli.phar /usr/local/bin/wp
 
 # Install Ansible
-RUN python3 -m pip install ansible
+RUN pipx install ansible
 
 USER www-data
