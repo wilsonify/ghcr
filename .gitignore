@@ -1,2 +1,14 @@
 .idea/
 .vscode/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+env/
+build/
+dist/
+*.egg-info/
+
+  

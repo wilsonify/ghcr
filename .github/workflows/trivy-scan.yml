@@ -1,0 +1,50 @@
+name: Trivy parallel scan
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    name: Discover Dockerfiles
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate matrix of Dockerfiles
+        id: matrix
+        run: |
+          matrix=$(python3 scripts/generate-matrix.py)
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  scan:
+    name: Build and scan (parallel)
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare report dir
+        run: mkdir -p trivy-reports
+
+      - name: Build and scan using script
+        run: |
+          echo "Running build-and-scan for ${{ matrix.path }}"
+          bash scripts/build-and-scan.sh "${{ matrix.path }}" "${{ matrix.name }}"
+
+      - name: Upload trivy JSON report
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-${{ matrix.name }}
+          path: trivy-reports/${{ matrix.name }}.json
