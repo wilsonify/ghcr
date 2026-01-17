@@ -8,6 +8,7 @@ on:
         description: "Path to the Dockerfile"
         required: true
         options:
+          - "actualbudget/actual"
           - "apache/airflow"
           - "aws/lambda/nodejs"
           - "aws/lambda/python"
