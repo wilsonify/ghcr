@@ -1,0 +1,1 @@
+FROM ghcr.io/actualbudget/actual:sha-2ed32c4-alpine
